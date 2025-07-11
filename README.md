@@ -120,7 +120,7 @@ Includes:
 * Email requests are uniquely identified by `emailId`
 * Statuses are stored in a map (in-memory)
 * No external SMTP integration (mock providers used)
-* Rate limit: Max 5 emails per recipient per hour
+* Rate limit: Max 6 emails per recipient per hour
 * Basic queue is simulated with a list and delay
 
 ---
