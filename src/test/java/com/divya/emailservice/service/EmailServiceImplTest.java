@@ -65,10 +65,10 @@ public class EmailServiceImplTest {
     void testRateLimiting() {
         String to = "rate@test.com";
 
-        // Send 5 allowed emails
-        for (int i = 1; i <= 5; i++) {
+        // Send 6 allowed emails (limit is 6)
+        for (int i = 1; i <= 6; i++) {
             EmailRequest request = new EmailRequest();
-            request.setEmailId("rate" + i); // unique emailId for idempotency
+            request.setEmailId("rate" + i); // unique emailId
             request.setTo(to);
             request.setSubject("Rate Test");
             request.setBody("Email " + i);
@@ -77,16 +77,17 @@ public class EmailServiceImplTest {
             assertEquals("SENT", status.getStatus(), "Should be allowed");
         }
 
-        // 6th email should be rate-limited
-        EmailRequest sixthRequest = new EmailRequest();
-        sixthRequest.setEmailId("rate6");
-        sixthRequest.setTo(to);
-        sixthRequest.setSubject("Blocked Email");
-        sixthRequest.setBody("This should be rate limited");
+        // 7th email should be rate-limited
+        EmailRequest seventhRequest = new EmailRequest();
+        seventhRequest.setEmailId("rate7");
+        seventhRequest.setTo(to);
+        seventhRequest.setSubject("Blocked Email");
+        seventhRequest.setBody("This should be rate limited");
 
-        EmailStatus sixthStatus = emailService.sendEmail(sixthRequest);
-        assertEquals("RATE_LIMITED", sixthStatus.getStatus(), "Should be rate-limited on 6th attempt");
+        EmailStatus seventhStatus = emailService.sendEmail(seventhRequest);
+        assertEquals("RATE_LIMITED", seventhStatus.getStatus(), "Should be rate-limited on 7th attempt");
     }
+
 
 
 }
