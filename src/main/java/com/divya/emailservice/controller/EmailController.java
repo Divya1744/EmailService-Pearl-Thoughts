@@ -3,7 +3,6 @@ package com.divya.emailservice.controller;
 import com.divya.emailservice.model.EmailRequest;
 import com.divya.emailservice.model.EmailStatus;
 import com.divya.emailservice.service.EmailService;
-import com.divya.emailservice.util.RateLimiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-//@RequestMapping("/api/mail")
+@RequestMapping("/api/mail")
 @RequiredArgsConstructor
 public class EmailController {
 
     private final EmailService emailService;
-    private final RateLimiter rateLimiter;
 
     @GetMapping("/")
     public String healthCheck() {

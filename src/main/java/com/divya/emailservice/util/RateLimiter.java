@@ -12,6 +12,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class RateLimiter {
 
+    //Limit: 6 emails per user per 60 seconds
     private final int limit = 6;
     private final long windowMs = 60000;
 
@@ -27,10 +28,11 @@ public class RateLimiter {
 
         System.out.println("Checking rate limit for: " + recipient + ", attempts: " + timestamps.size());
 
+        // Allow only if the number of recent timestamps is below limit
         if (timestamps.size() >= limit) {
             return false;
         }
-        timestamps.add(now);
+        timestamps.add(now);  //Record the new attempt
         rateMap.put(recipient, timestamps);
         return true;
     }
