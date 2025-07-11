@@ -11,12 +11,17 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/mail")
+//@RequestMapping("/api/mail")
 @RequiredArgsConstructor
 public class EmailController {
 
     private final EmailService emailService;
     private final RateLimiter rateLimiter;
+
+    @GetMapping("/")
+    public String healthCheck() {
+        return "✅ Email Service is running!";
+    }
 
     @PostMapping("/send")
     public ResponseEntity<EmailStatus> sendEmail(@RequestBody EmailRequest request) {
