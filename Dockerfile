@@ -1,14 +1,15 @@
-# Use OpenJDK 17 as base image
 FROM eclipse-temurin:17-jdk-alpine
 
-# Set work directory
 WORKDIR /app
 
-# Copy jar file into container
-COPY target/emailservice-0.0.1-SNAPSHOT.jar app.jar
+# Copy everything
+COPY . .
 
-# Expose port (Spring Boot default)
-EXPOSE 8080
+# Give permission to mvnw (in case Linux complains)
+RUN chmod +x mvnw
 
-# Run the jar
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Build the project (skip tests to speed it up)
+RUN ./mvnw clean package -DskipTests
+
+# Run the app
+CMD ["java", "-jar", "target/emailservice-0.0.1-SNAPSHOT.jar"]
